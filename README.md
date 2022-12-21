@@ -76,6 +76,8 @@ monailabel start_server --app apps/radiology --studies datasets/Task09_Spleen/im
 ```
 This step will vary depending on you want to do (I think). With this setup the `-v ~:/workspace/` option, mounts all the data in the home folder of the VM into the docker container, presumably making it accessible by MonAI. Put data in that folder, or mount your data approriately.
 
+MonAI Label will create a server at http://0.0.0.0:8000 by default. Hench, the port-fowarding, but I think the "host" flags in the other docker options make it available at 8000 on the host anyway. Regarless, this is where Slicer will have to look for a MonAI server.
+
 Leave this terminal window open. You can make this "headless" and persistent as your needs vary, so you can turn things off, etc.
 
 ## 4. Run 3D Slicer
@@ -90,6 +92,8 @@ ssh -i ~/.ssh/monaikey.pem -L 8080:localhost:8080 ubuntu@monai-base.sydneyuni.cl
 ```
 sudo docker run -it --rm --gpus all --ipc=host --net=host -d -p 8080:8080 --name slicer stevepieper/slicer:5.0.3
 ```
+
+As with MonAI, Slicer needs to "escape" from the Docker container and access the MonAI Docker host, hence the host and port flags (although I suspect there is some redundancy here).
 
 Now on your local web-browser navigate to `http://localhost:8080/` in a browser, start an x11 session and go from there:
 > View → Extension Manager → Search MONAI Label
