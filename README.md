@@ -1,13 +1,15 @@
 # monai
-Workflow to run MonAI label from Slicer3D on a Ronin virtual machine
+Workflow to run [MonAI](https://monai.io/) label from [3D Slicer](https://www.slicer.org/) on a [Ronin](https://ronin.sydneyuni.cloud/) virtual machine (which uses AWS in the backend).
 
-The below instructions are for Linux. Windows may be okay too, but also requires installation of NVIDIA etc. If you are happy to use the preconfigured machine, jump straight to [Runnin the MonAI server](#3.-run-monai-server)
+The below instructions are for Linux. Windows may be okay too, but also requires installation of NVIDIA etc. If you are happy to use the preconfigured machine, jump straight to [Runnin the MonAI server](#3-run-monai-server)
 
 ## 1. Create a machine
 
 Follow instructions here: https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/1156153809/Machine+Management
 
-The most "powerful" GPU on Ronin as of Dec 2022 is a *P3.2XLARGE*, it has a single V100 card and costs **USD$4.23 per hour**. I am not sure if MonAI can utilise multiple cards. For "Demo" purposes using a *G4DN.XLARGE* may be the way to go as it costs **USD$0.68 per hour**.
+The most "powerful" GPU on Ronin as of Dec 2022 is a *P3.2XLARGE*, it has a single V100 card and costs **USD$4.23 per hour**. 
+
+I am not sure if MonAI can utilise multiple cards. For "Demo" purposes using a *G4DN.XLARGE* may be the way to go as it costs **USD$0.68 per hour** for a single T4 GPU.
 
 
 ## 2. Set up the base machine with GPU drivers and Docker
@@ -90,8 +92,11 @@ sudo docker run -it --rm --gpus all --ipc=host --net=host -d -p 8080:8080 --name
 
 Now on your local web-browser navigate to `http://localhost:8080/` in a browser, start an x11 session and go from there:
 > View → Extension Manager → Search MONAI Label
+> 
 > Install MONAI Label plugin
+> 
 > Restart 3D Slicer
+> 
 > Then from the main screen search for MonaAI Label and click the Green Circle refresh button.
 
 
