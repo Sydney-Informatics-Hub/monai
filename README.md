@@ -1,7 +1,16 @@
 # monai
 Workflow to run MonAI label from Slicer3D on a Ronin virtual machine
 
-## Set up the Base machine with GPU drivers and Docker
+The below instructions are for Linux. Windows may be okay too, but also requires installation of NVIDIA etc. If you are happy to use the preconfigured machine, jump straight to [Runnin the MonAI server](#3.-run-monai-server)
+
+## 1. Create a machine
+
+Follow instructions here: https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/1156153809/Machine+Management
+
+The most "powerful" GPU on Ronin as of Dec 2022 is a *P3.2XLARGE*, it has a single V100 card and costs **USD$4.23 per hour**. I am not sure if MonAI can utilise multiple cards. For "Demo" purposes using a *G4DN.XLARGE* may be the way to go as it costs **USD$0.68 per hour**.
+
+
+## 2. Set up the base machine with GPU drivers and Docker
 
 ### Connect to your machine
 ```
@@ -49,9 +58,9 @@ sudo apt-get install -y nvidia-docker2
 sudo systemctl restart docker
 ```
 
-## Run MonAI server
+## 3. Run MonAI server
 
-### 1. Connect to machine. 
+### Connect to machine. 
 ssh -i ~/.ssh/monaikey.pem ubuntu@monai-base.sydneyuni.cloud
 
 
@@ -66,7 +75,7 @@ This step will vary depending on you want to do (I think). With this setup the `
 
 Leave this terminal window open. You can make this "headless" and persistent as your needs vary, so you can turn things off, etc.
 
-# Run 3D Slicer
+## 4. Run 3D Slicer
 
 ### Connect to machine
 Connect with ssh and forward the port we will map for interacting with Slicer.
@@ -74,7 +83,7 @@ Connect with ssh and forward the port we will map for interacting with Slicer.
 ssh -i ~/.ssh/monaikey.pem -L 8080:localhost:8080 ubuntu@monai-base.sydneyuni.cloud 
 ```
 
-# Launch Slicer
+### Launch Slicer
 ```
 sudo docker run -it --rm --gpus all --ipc=host --net=host -d -p 8080:8080 --name slicer stevepieper/slicer:5.0.3
 ```
