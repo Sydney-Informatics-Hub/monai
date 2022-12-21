@@ -1,7 +1,7 @@
 # monai
 Workflow to run [MonAI](https://monai.io/) label from [3D Slicer](https://www.slicer.org/) on a [Ronin](https://ronin.sydneyuni.cloud/) virtual machine (which uses AWS in the backend).
 
-The below instructions are for Linux. Windows may be okay too, but also requires installation of NVIDIA etc. If you are happy to use the preconfigured machine, jump straight to [Runnin the MonAI server](#3-run-monai-server)
+The below instructions are for Linux. Windows may be okay too, but also requires installation of NVIDIA etc. If you are happy to use the preconfigured machine, jump straight to [Running the MonAI server](#3-run-monai-server)
 
 ## 1. Create a machine
 
