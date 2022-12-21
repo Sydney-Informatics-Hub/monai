@@ -1,11 +1,13 @@
 # MonAI and 3D Slicer on Ronin
 Workflow to run [MonAI](https://monai.io/) label from [3D Slicer](https://www.slicer.org/) on a [Ronin](https://ronin.sydneyuni.cloud/) virtual machine (which uses AWS in the backend).
 
-The below instructions are for Linux. Windows may be okay too, but also requires installation of NVIDIA etc. If you are happy to use the preconfigured machine, jump straight to [Running the MonAI server](#3-run-monai-server)
+The below instructions are for Linux. Windows may be okay too, but also requires installation of NVIDIA etc. If you are happy to use the preconfigured machine, jump straight to [3.Running the MonAI server](#3-run-monai-server)
 
 ## 1. Create a machine
 
 Follow instructions here: https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/1156153809/Machine+Management
+
+You can use the "monai" "project package" as a base image and skip Step 2 below.
 
 The most "powerful" GPU on Ronin as of Dec 2022 is a *P3.2XLARGE*, it has a single V100 card and costs **USD$4.23 per hour**. 
 
