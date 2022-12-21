@@ -63,8 +63,9 @@ sudo systemctl restart docker
 ## 3. Run MonAI server
 
 ### Connect to machine. 
+```
 ssh -i ~/.ssh/monaikey.pem ubuntu@monai-base.sydneyuni.cloud
-
+```
 
 ### Start the monai server, e.g. 
 ```
