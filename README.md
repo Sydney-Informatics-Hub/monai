@@ -1,4 +1,4 @@
-# monai
+# MonAI and 3D Slicer on Ronin
 Workflow to run [MonAI](https://monai.io/) label from [3D Slicer](https://www.slicer.org/) on a [Ronin](https://ronin.sydneyuni.cloud/) virtual machine (which uses AWS in the backend).
 
 The below instructions are for Linux. Windows may be okay too, but also requires installation of NVIDIA etc. If you are happy to use the preconfigured machine, jump straight to [Running the MonAI server](#3-run-monai-server)
@@ -104,6 +104,7 @@ Now on your local web-browser navigate to `http://localhost:8080/` in a browser,
 > 
 > Then from the main screen search for MonaAI Label and click the Green Circle refresh button.
 
+Note this particular Docker image is not the offical one, but the only one that was clear, it seems to be regularly updated, albeit this is a few versions behind the current. I tried some approaches not using Docker, but this was by far the easiest install process. 
 
 # Extra notes.
 To run general monai, use:
