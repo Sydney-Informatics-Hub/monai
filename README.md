@@ -10,8 +10,9 @@ Follow instructions here: https://sydneyuni.atlassian.net/wiki/spaces/RC/pages/1
 You can use the "monai" "project package" as a base image and skip Step 2 below.
 
 The most "powerful" GPU on Ronin as of Dec 2022 is a *P3.2XLARGE*, it has a single V100 card and costs **USD$4.23 per hour**. 
+For "Demo" purposes using a *G4DN.XLARGE* may be the way to go as it costs **USD$0.68 per hour** for a single T4 GPU.
 
-I am not sure if MonAI can utilise multiple cards. For "Demo" purposes using a *G4DN.XLARGE* may be the way to go as it costs **USD$0.68 per hour** for a single T4 GPU.
+I am unaware if MonAI can utilise multiple GPU cards. 
 
 
 ## 2. Set up the base machine with GPU drivers and Docker
