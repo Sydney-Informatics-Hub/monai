@@ -97,7 +97,7 @@ sudo docker run -it --rm --gpus all --ipc=host --net=host -d -p 8080:8080 --name
 
 As with MonAI, Slicer needs to "escape" from the Docker container and access the MonAI Docker host, hence the host and port flags (although I suspect there is some redundancy here).
 
-Now on your local web-browser navigate to `http://localhost:8080/` in a browser, start an x11 session and go from there:
+Now wait a couple minutes (but no more than 2) and then on your local web-browser navigate to `http://localhost:8080/` in a browser, start an x11 session and go from there:
 > View → Extension Manager → Search MONAI Label
 > 
 > Install MONAI Label plugin
