@@ -76,7 +76,7 @@ monailabel start_server --app apps/radiology --studies datasets/Task09_Spleen/im
 ```
 This step will vary depending on you want to do (I think). With this setup the `-v ~:/workspace/` option, mounts all the data in the home folder of the VM into the docker container, presumably making it accessible by MonAI. Put data in that folder, or mount your data approriately.
 
-MonAI Label will create a server at http://0.0.0.0:8000 by default. Hench, the port-fowarding, but I think the "host" flags in the other docker options make it available at 8000 on the host anyway. Regarless, this is where Slicer will have to look for a MonAI server.
+MonAI Label will create a server at `http://0.0.0.0:8000` by default. Hence the port-fowarding, but I think the "host" flags in the other docker options make it available at 8000 on the host anyway. Regardless, this is where Slicer will have to look for a MonAI server.
 
 Leave this terminal window open. You can make this "headless" and persistent as your needs vary, so you can turn things off, etc.
 
