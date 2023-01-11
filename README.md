@@ -85,34 +85,70 @@ Leave this terminal window open. You can make this "headless" and persistent as 
 
 ## 4. Run 3D Slicer
 
-### Connect to machine
-Connect with ssh and forward the port we will map for interacting with Slicer.
+Three options. Performance may vary for each option depending on Network, where data is located, where processing is done, etc.
+
+### 4a. Launch Slicer from your local machine
+
+You first need to create a connection to the MonAI Server running on Ronin. Open a new Terminal window and connect with ssh and forward the port that MonAI is running on (and Slicer expects):
 ```
-ssh -i ~/.ssh/monaikey.pem -L 8080:localhost:8080 ubuntu@monai-base.sydneyuni.cloud 
+ssh -i ~/.ssh/monaikey.pem -L 8000:localhost:8000 ubuntu@monai-base.sydneyuni.cloud 
 ```
 
-### Launch Slicer
-```
-sudo docker run -it --rm --gpus all --ipc=host --net=host -d -p 8080:8080 -v /home/ubuntu:/home/ubuntu 
- --name slicer stevepieper/slicer:5.0.3
-```
+Minimise that window.
+Now run Slicer and MonAI Label plugin as normal:
 
-This will mount the home folder into the container. Anything in there will be accesible with Slicer.
-As with MonAI, Slicer needs to "escape" from the Docker container and access the MonAI Docker host, hence the host and port flags (although I suspect there is some redundancy here).
-
-Now wait a couple minutes (but no more than 2) and then on your local web-browser navigate to `http://localhost:8080/` in a browser, start an x11 session and go from there:
 > View → Extension Manager → Search MONAI Label
 > 
 > Install MONAI Label plugin
 > 
 > Restart 3D Slicer
 > 
-> Then from the main screen search for MonaAI Label and click the Green Circle refresh button.
+> Then from the main screen search for MonaAI Label and **click the Green Circle refresh button**.
+
+
+### 4b. Launch Slicer on Ronin machine and connect via local web browser
+
+Connect with ssh and forward the port we will map for interacting with Slicer. (Note we are forwarding a different port here, 8080).
+```
+ssh -i ~/.ssh/monaikey.pem -L 8080:localhost:8080 ubuntu@monai-base.sydneyuni.cloud 
+```
+
+Now run the Ronin-installed version of Slicer. **Note:** a better non-Docker version may improve performance but Nat tried and stopped when there was a conflict in libraries, but could be done if this seems to be the preferred method.
+```
+sudo docker run -it --rm --gpus all --ipc=host --net=host -d -p 8080:8080 -v /home/ubuntu:/home/ubuntu --name slicer stevepieper/slicer:5.0.3
+```
+
+This will mount the home folder into the container. Anything in there will be accesible with Slicer.
+As with MonAI, Slicer needs to "escape" from the Docker container and access the MonAI Docker host, hence the host and port flags (although I suspect there is some redundancy here).
+
+Now wait a couple minutes (but no more than 2) and then on your local web-browser navigate to `http://localhost:8080/` in a browser, start an x11 session and go from there.
 
 Note this particular Docker image is not the offical one, but the only one that was clear, it seems to be regularly updated, albeit this is a few versions behind the current. I tried some approaches not using Docker, but this was by far the easiest install process. 
 
+### 4c. Connect to Ronin GUI and launch Slicer on Ronin machine.
+
+Connect to Ronin via the "Connect to Machine" button in Ronin Link.
+
+Open a terminal and run
+```
+sudo docker run -it --rm --gpus all --ipc=host --net=host -d -p 8080:8080 -v /home/ubuntu:/home/ubuntu --name slicer stevepieper/slicer:5.0.3
+```
+
+Now open the Ronin Web browser (firefox) and navigate to 
+```
+localhost:8080
+```
+(Which is the equivalent of `http://0.0.0.0:8080`)
+
+
 # Extra notes.
+
 To run general monai, use:
 ```sudo docker run --gpus all --rm -ti --ipc=host projectmonai/monai:latest``` But I am not sure how you use that.
 
 You may need X11 forwarding -X (you must setup x11 locally with [xquartz](https://www.xquartz.org/) for example)
+
+## Port forwarding.
+
+MonAI is running on port 8000 on Ronin. If we want our local Slicer to connect to Ronin Monai, then we have to map 8000 from our local machine to Ronin.
+The Slicer on Ronin is running on port 8080, if we want to connect our local web-browser to that slicer version, then we need to map 8080.
