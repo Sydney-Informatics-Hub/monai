@@ -93,9 +93,11 @@ ssh -i ~/.ssh/monaikey.pem -L 8080:localhost:8080 ubuntu@monai-base.sydneyuni.cl
 
 ### Launch Slicer
 ```
-sudo docker run -it --rm --gpus all --ipc=host --net=host -d -p 8080:8080 --name slicer stevepieper/slicer:5.0.3
+sudo docker run -it --rm --gpus all --ipc=host --net=host -d -p 8080:8080 -v /home/ubuntu:/home/ubuntu 
+ --name slicer stevepieper/slicer:5.0.3
 ```
 
+This will mount the home folder into the container. Anything in there will be accesible with Slicer.
 As with MonAI, Slicer needs to "escape" from the Docker container and access the MonAI Docker host, hence the host and port flags (although I suspect there is some redundancy here).
 
 Now wait a couple minutes (but no more than 2) and then on your local web-browser navigate to `http://localhost:8080/` in a browser, start an x11 session and go from there:
