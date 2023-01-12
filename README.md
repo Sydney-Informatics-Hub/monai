@@ -1,7 +1,7 @@
 # MonAI and 3D Slicer on Ronin
 Workflow to run [MonAI](https://monai.io/) label from [3D Slicer](https://www.slicer.org/) on a [Ronin](https://ronin.sydneyuni.cloud/) virtual machine (which uses AWS in the backend).
 
-The below instructions are for Linux. Windows may be okay too, but also requires installation of NVIDIA etc. If you are happy to use the preconfigured machine, jump straight to [3.Running the MonAI server](#3-run-monai-server)
+The below instructions are for Linux. Windows may be okay too, but also requires installation of NVIDIA etc. If you are happy to use the preconfigured machine, jump straight to [4.Run 3D Slicer](#4-run-3d-slicer)
 
 ## 1. Create a machine
 
@@ -82,6 +82,13 @@ This step will vary depending on you want to do (I think). With this setup the `
 MonAI Label will create a server at `http://0.0.0.0:8000` by default. Hence the port-fowarding, but I think the "host" flags in the other docker options make it available at 8000 on the host anyway. Regardless, this is where Slicer will have to look for a MonAI server.
 
 Leave this terminal window open. You can make this "headless" and persistent as your needs vary, so you can turn things off, etc.
+
+After downloading the `radiology` app and example dataset above, I moved them to permanent folders. Now the monai server can be started persistently with the command:
+```
+sudo docker run -it --gpus all --restart always -d --ipc=host --net=host -p 8000:8000 --name monai -v ~:/workspace/ -v ~/MONDAT/apps:/opt/monai/apps -v ~/MONDAT/datasets:/opt/monai/datasets projectmonai/monailabel:latest bash -c "monailabel start_server --app apps/radiology --studies datasets/Task09_Spleen/imagesTr --conf models all"
+```
+
+Here the `--restart always` will automatically start the container after the Ronin machine is rebooted. The `-d` flag will put everything in the background.
 
 ## 4. Run 3D Slicer
 
