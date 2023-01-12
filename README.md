@@ -75,7 +75,7 @@ ssh -i ~/.ssh/monaikey.pem ubuntu@monai-base.sydneyuni.cloud
 sudo docker run -it --rm --gpus all --ipc=host --net=host -p 8000:8000 --name monai -v ~:/workspace/ projectmonai/monailabel:latest bash
 monailabel apps --download --name radiology --output apps
 monailabel datasets --download --name Task09_Spleen --output datasets
-monailabel start_server --app apps/radiology --studies datasets/Task09_Spleen/imagesTr --conf models deepedit
+monailabel start_server --app apps/radiology --studies datasets/Task09_Spleen/imagesTr --conf models all
 ```
 This step will vary depending on you want to do (I think). With this setup the `-v ~:/workspace/` option, mounts all the data in the home folder of the VM into the docker container, presumably making it accessible by MonAI. Put data in that folder, or mount your data approriately.
 
