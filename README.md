@@ -71,6 +71,8 @@ ssh -i ~/.ssh/monaikey.pem ubuntu@monai-base.sydneyuni.cloud
 ```
 
 ### Start the monai server, e.g. 
+
+#### Manually
 ```
 sudo docker run -it --rm --gpus all --ipc=host --net=host -p 8000:8000 --name monai -v ~:/workspace/ projectmonai/monailabel:latest bash
 monailabel apps --download --name radiology --output apps
@@ -83,6 +85,7 @@ MonAI Label will create a server at `http://0.0.0.0:8000` by default. Hence the 
 
 Leave this terminal window open. You can make this "headless" and persistent as your needs vary, so you can turn things off, etc.
 
+#### Auto
 After downloading the `radiology` app and example dataset above, I moved them to permanent folders. Now the monai server can be started persistently with the command:
 ```
 sudo docker run -it --gpus all --restart always -d --ipc=host --net=host -p 8000:8000 --name monai -v ~:/workspace/ -v ~/MONDAT/apps:/opt/monai/apps -v ~/MONDAT/datasets:/opt/monai/datasets projectmonai/monailabel:latest bash -c "monailabel start_server --app apps/radiology --studies datasets/Task09_Spleen/imagesTr --conf models all"
