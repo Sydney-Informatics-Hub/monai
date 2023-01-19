@@ -90,6 +90,26 @@ sudo docker run -it --gpus all --restart always -d --ipc=host --net=host -p 8000
 
 Here the `--restart always` will automatically start the container after the Ronin machine is rebooted. The `-d` flag will put everything in the background.
 
+
+### To start/stop/restart server
+
+List the running docker processes
+```
+sudo docker ps -a
+```
+
+It should be called "monai", so stop the server with:
+```
+sudo docker kill monai
+```
+
+And remove it (if necessary):
+```
+sudo docker rm monai
+```
+
+Make any changes then restart as above. Or `sudo docker start monai` (if you did not `rm` it).
+
 ## 4. Run 3D Slicer
 
 Three options. Performance may vary for each option depending on Network, where data is located, where processing is done, etc.
