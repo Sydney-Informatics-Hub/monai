@@ -72,21 +72,21 @@ ssh -i ~/.ssh/monaikey.pem ubuntu@monai-base.sydneyuni.cloud
 
 ### Start the monai server, e.g. 
 
-#### Manual
+## A. Manual start the server
 Start the `monailabel` docker container. This step will vary depending on you want to do (I think). With this setup the `-v ~:/workspace/` option, mounts all the data in the home folder of the VM into the docker container, presumably making it accessible by MonAI. Put data in that folder, or mount your data approriately.
 ```
 sudo docker run -it --rm --gpus all --ipc=host --net=host -p 8000:8000 --name monai -v ~:/workspace/ projectmonai/monailabel:latest bash
 ```
 
-Download the example apps and datasets
+Download the example apps and datasets if required
 ```
 monailabel apps --download --name radiology --output apps
 monailabel datasets --download --name Task09_Spleen --output datasets
 ```
 
-You can now start the monai server. Chossing `--conf models all` for the first time will take a while to download all ML models and t
+You can now start the monai server. Chossing `--conf models all` for the first time will take a while to download all ML models. Be default, `apps` and `datasets` are in the `/opt/monai` folder, but you can point to whatever app and dataset folder you need to:
 ```
-monailabel start_server --app apps/radiology --studies datasets/Task09_Spleen/imagesTr --conf models all
+monailabel start_server --app /opt/monai/apps/radiology --studies /opt/monai/datasets/Task09_Spleen/imagesTr --conf models all
 ```
 Now MonAI Label will create a server at `http://0.0.0.0:8000` by default. Hence the port-fowarding, but I think the "host" flags in the other docker options make it available at 8000 on the host anyway. Regardless, this is where Slicer will have to look for a MonAI server.
 
@@ -99,8 +99,8 @@ cp -r /opt/monai/apps /workspace/MONDAT/
 cp -r /opt/monai/datasets /workspace/MONDAT/
 ```
 
-#### Auto
-After downloading the `radiology` app and example dataset above, I moved them to permanent folders. Now the monai server can be started persistently with the command:
+## B. Auto start the server
+After downloading the `radiology` app and example dataset above and moving them to permanent folders, or preparing your own app/data, you can start the monai server persistently with the command:
 ```
 sudo docker run -it --gpus all --restart always -d --ipc=host --net=host -p 8000:8000 --name monai -v ~:/workspace/ -v ~/MONDAT/apps:/opt/monai/apps -v ~/MONDAT/datasets:/opt/monai/datasets projectmonai/monailabel:latest bash -c "monailabel start_server --app apps/radiology --studies datasets/Task09_Spleen/imagesTr --conf models all"
 ```
@@ -123,6 +123,12 @@ sudo docker kill monai
 And remove it (if necessary):
 ```
 sudo docker rm monai
+```
+
+Files and folders created by the monai docker container will be owned by root on the host machine. To make them editable by the local user (assumed to be `ubuntu`) from a *local* terminal execute:
+```
+sudo chown ubuntu:ubutnu -R ~/MONDAT/apps
+sudo chown ubuntu:ubutnu -R ~/MONDAT/datasets
 ```
 
 Make any changes then restart as above. Or `sudo docker start monai` (if you did not `rm` it).
